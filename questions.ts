@@ -71,7 +71,7 @@ if ($dialogResult -eq [System.Windows.Forms.DialogResult]::OK)
 const defaults: QuestionArgs = {
   template: "streaming",
   framework: "fastapi",
-  listServerModels: true,
+  listServerModels: false,
   observability: "none",
   ui: "shadcn",
   frontend: false,
@@ -95,16 +95,7 @@ const handlers = {
 };
 
 const getVectorDbChoices = (framework: TemplateFramework) => {
-  const choices = [
-    {
-      title: "No, just store the data in the file system",
-      value: "none",
-    },
-    { title: "MongoDB", value: "mongo" },
-    { title: "PostgreSQL", value: "pg" },
-    { title: "Pinecone", value: "pinecone" },
-    { title: "Milvus", value: "milvus" },
-  ];
+  const choices = [{ title: "PostgreSQL", value: "pg" }];
 
   const vectordbLang = framework === "fastapi" ? "python" : "typescript";
   const compPath = path.join(templatesDir, "components");
@@ -241,16 +232,8 @@ const getAvailableModelChoices = async (
   apiKey?: string,
   listServerModels?: boolean,
 ) => {
-  const defaultLLMModels = [
-    "Llama2-70b-Instruct",
-    "Mixtral-8x7B-Instruct-v0.1",
-    "Zephyr-7b-beta",
-  ];
-  const defaultEmbeddingModels = [
-    "paraphrase-multilingual-mpnet-base-v2",
-    "jina-embeddings-v2-base-de",
-    "text-embedding-bge-m3",
-  ];
+  const defaultLLMModels = ["gpt-4-turbo-preview"];
+  const defaultEmbeddingModels = ["text-embedding-3-small"];
 
   const isEmbeddingModel = (model_id: string) => {
     return (
